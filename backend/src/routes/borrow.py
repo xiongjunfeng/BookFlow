@@ -29,6 +29,10 @@ def borrow_book():
     user = User.query.get(current_user_id)
     book = Book.query.get(book_id)
     
+    # 检查用户角色 - 管理员不能借阅图书
+    if user.role == 'admin':
+        return jsonify({'message': '管理员不能借阅图书'}), 403
+    
     if not book:
         return jsonify({'message': '图书不存在'}), 404
     
